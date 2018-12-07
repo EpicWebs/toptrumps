@@ -1,4 +1,4 @@
-# toptrumps
+# A WordPress Top Trumps Game
 
 ## How to play!
 
