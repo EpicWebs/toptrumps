@@ -20,5 +20,6 @@ This is a game created in WordPress, it uses ACF Pro to manage the fields in the
 - Add more animations to make it feel like the cards are battling.
 - Add additional cards via the admin area.
 - Add a computer AI that randomly selects a skill after you have selected a skill.
+- Open up the API endpoints so that the data could be used for an app or some other front end.
 
 _When refreshing the page a new game will be created._
