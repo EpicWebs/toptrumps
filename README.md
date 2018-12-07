@@ -1,4 +1,5 @@
 # A WordPress Top Trumps Game
+This is a game created in WordPress, it uses ACF Pro to manage the fields in the admin area, but this could easily be custom built instead. Most of the logic works off of Javascript/jQuery and some PHP for fetching card data.
 
 ## How to play!
 
