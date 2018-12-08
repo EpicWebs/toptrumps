@@ -33,6 +33,7 @@
 			var opponent_cards = <?php echo json_encode($opponent_cards); ?>;
 			var maximum_clicks = <?php echo floor( ( count($your_cards) + count($opponent_cards)) / 2 ); ?>;
 			var current_clicks = 0;
+			var current_turn = "yours";
 			<?php
 		}
 	?>
@@ -42,7 +43,6 @@
 	get_card_data("#opponents-card", opponent_cards);
 
 	function get_card_data(element_id, cards) {
-
 		var card_id = cards[0];
 
 		if(element_id == "#your-card") {
@@ -97,6 +97,108 @@
 		var opponent_score = parseInt(jQuery("#opponent-score").children("span").html());
 		var your_score = parseInt(jQuery("#your-score").children("span").html());
 
+		// Display the result of who won/lost the current turn
+		who_won(opponent_stat_value, stat_value, opponent_score, your_score);
+
+		setTimeout(function() {
+			if(current_turn == "yours") {
+				current_turn = "opponent";
+			} else {
+				current_turn = "yours";
+			}
+
+			if(current_clicks >= maximum_clicks) {
+				// Display the final score
+				end_game_score();
+			} else {
+				jQuery(".card--lost").removeClass("card--lost");
+				jQuery(".card--win").removeClass("card--win");
+
+				get_card_data("#your-card", your_cards);
+				get_card_data("#opponents-card", opponent_cards);
+
+				jQuery(".selected").removeClass("selected");
+
+				if(current_turn == "yours") {
+					jQuery("#opponents-card").children(".card").addClass("card--hidden");
+					jQuery("#your-card").find(".card__stats").find("a").removeClass("disabled");
+				} else {
+					setTimeout(function() {
+						// Your opponents turn to select a stat
+						stat_value_challenge_opponent();
+					}, 2000);
+				}
+			}
+		}, 4000);
+	}
+
+	function stat_value_challenge_opponent() {
+		var opponent_stat_value = 0;
+		var opponent_stat_type = "strength";
+
+		jQuery("#opponents-card").find(".card__stats").find("dd").children("span").each(function() {
+			if(parseInt(jQuery(this).html()) > opponent_stat_value) {
+				opponent_stat_value = parseInt(jQuery(this).html());
+				opponent_stat_type = jQuery(this).parent().prop("class");
+				opponent_stat_type = opponent_stat_type.toString();
+				opponent_stat_type = opponent_stat_type.replace("card__stats__","");
+			}
+		});
+
+		jQuery("#opponents-card").find(".card__stats").find(".card__stats__" + opponent_stat_type).children("span").addClass("selected");
+		jQuery("#your-card").find(".card__stats").find(".card__stats__" + opponent_stat_type).children("a").addClass("selected");
+
+		var stat_value = parseInt(jQuery("#your-card").find(".card__stats").find(".card__stats__" + opponent_stat_type).children("a").html());
+
+		var opponent_score = parseInt(jQuery("#opponent-score").children("span").html());
+		var your_score = parseInt(jQuery("#your-score").children("span").html());
+
+		// Display the result of who won/lost the current turn
+		who_won(opponent_stat_value, stat_value, opponent_score, your_score);
+
+		current_clicks++;
+
+		setTimeout(function() {
+			if(current_turn == "yours") {
+				current_turn = "opponent";
+			} else {
+				current_turn = "yours";
+			}
+
+			if(current_clicks >= maximum_clicks) {
+				// Display the final score
+				end_game_score();
+			} else {
+				jQuery(".card--lost").removeClass("card--lost");
+				jQuery(".card--win").removeClass("card--win");
+
+				get_card_data("#your-card", your_cards);
+				get_card_data("#opponents-card", opponent_cards);
+
+				jQuery("#opponents-card").children(".card").addClass("card--hidden");
+				jQuery(".selected").removeClass("selected");
+				jQuery("#your-card").find(".card__stats").find("a").removeClass("disabled");
+			}
+		}, 4000);
+	}
+
+	jQuery(".card__stats").on("click", "a", function(event) {
+		event.preventDefault();
+
+		if(!jQuery(this).hasClass("disabled")) {
+			var stat_value = parseInt(jQuery(this).html());
+			var stat_type = jQuery(this).data("stat-type");
+
+			jQuery(this).addClass("selected");
+
+			current_clicks++;
+			
+			// Calculate who won/lost
+			stat_value_challenge(stat_type, stat_value, your_cards, opponent_cards);
+		}
+	});
+
+	function who_won(opponent_stat_value, stat_value, opponent_score, your_score) {
 		// You lose!
 		if(opponent_stat_value > stat_value) {
 			jQuery("#opponents-card").addClass("card--win");
@@ -122,49 +224,22 @@
 			jQuery("#opponents-card").addClass("card--lost");
 			jQuery("#your-card").addClass("card--lost");
 		}
-
-		setTimeout(function() {
-			if(current_clicks >= maximum_clicks) {
-				jQuery(".card--lost").removeClass("card--lost");
-				jQuery(".card--win").removeClass("card--win");
-				jQuery(".game-instructions").remove();
-
-				var current_opponent_score = parseInt(jQuery("#opponent-score").children("span").html());
-				var current_your_score = parseInt(jQuery("#your-score").children("span").html());
-
-				jQuery("#opponents-card").children().remove();
-				jQuery("#your-card").children().remove();
-
-				jQuery("#opponents-card").append("<div class='final-score'><strong>Opponents Score:</strong> " + current_opponent_score + "</div>");
-				jQuery("#your-card").append("<div class='final-score'><strong>Your Score:</strong> " + current_your_score + "</div>");
-			} else {
-				jQuery(".card--lost").removeClass("card--lost");
-				jQuery(".card--win").removeClass("card--win");
-				jQuery("#opponents-card").children(".card").addClass("card--hidden");
-
-				get_card_data("#your-card", your_cards);
-				get_card_data("#opponents-card", opponent_cards);
-
-				jQuery("#your-card").find(".card__stats").find("a").removeClass("disabled");
-				jQuery(".selected").removeClass("selected");
-			}
-		}, 4000);
 	}
 
-	jQuery(".card__stats").on("click", "a", function(event) {
-		event.preventDefault();
+	function end_game_score() {
+		jQuery(".card--lost").removeClass("card--lost");
+		jQuery(".card--win").removeClass("card--win");
+		jQuery(".game-instructions").remove();
 
-		if(!jQuery(this).hasClass("disabled")) {
-			var stat_value = parseInt(jQuery(this).html());
-			var stat_type = jQuery(this).data("stat-type");
+		var current_opponent_score = parseInt(jQuery("#opponent-score").children("span").html());
+		var current_your_score = parseInt(jQuery("#your-score").children("span").html());
 
-			jQuery(this).addClass("selected");
+		jQuery("#opponents-card").children().remove();
+		jQuery("#your-card").children().remove();
 
-			current_clicks++;
-			
-			stat_value_challenge(stat_type, stat_value, your_cards, opponent_cards);
-		}
-	});
+		jQuery("#opponents-card").append("<div class='final-score'><strong>Opponents Score:</strong> " + current_opponent_score + "</div>");
+		jQuery("#your-card").append("<div class='final-score'><strong>Your Score:</strong> " + current_your_score + "</div>");
+	}
 </script>
 </body>
 </html>
