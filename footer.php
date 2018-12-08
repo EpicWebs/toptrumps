@@ -201,22 +201,20 @@
 	function who_won(opponent_stat_value, stat_value, opponent_score, your_score) {
 		// You lose!
 		if(opponent_stat_value > stat_value) {
-			jQuery("#opponents-card").addClass("card--win");
-			jQuery("#your-card").addClass("card--lost");
-
 			opponent_score = opponent_score + 1;
 
 			jQuery("#opponent-score").children("span").html(opponent_score);
+
+			animate_card_combat("#opponents-card");
 		}
 
 		// You win!
 		if(opponent_stat_value < stat_value) {
-			jQuery("#opponents-card").addClass("card--lost");
-			jQuery("#your-card").addClass("card--win");
-
 			your_score = your_score + 1;
 
 			jQuery("#your-score").children("span").html(your_score);
+
+			animate_card_combat("#your-card");
 		}
 
 		// It's a draw!
@@ -239,6 +237,28 @@
 
 		jQuery("#opponents-card").append("<div class='final-score'><strong>Opponents Score:</strong> " + current_opponent_score + "</div>");
 		jQuery("#your-card").append("<div class='final-score'><strong>Your Score:</strong> " + current_your_score + "</div>");
+	}
+
+	function animate_card_combat(element) {
+		if(element == "#your-card") {
+			jQuery(element).animate({"top":"40px"}, 400, function() {
+				jQuery(element).animate({"top":"-20px"}, 200, function() {
+					jQuery("#opponents-card").addClass("card--lost");
+					jQuery("#your-card").addClass("card--win");
+
+					jQuery(element).animate({"top":"0px"}, 800);
+				});
+			});
+		} else {
+			jQuery(element).animate({"top":"-40px"}, 400, function() {
+				jQuery(element).animate({"top":"20px"}, 200, function() {
+					jQuery("#opponents-card").addClass("card--win");
+					jQuery("#your-card").addClass("card--lost");
+
+					jQuery(element).animate({"top":"0px"}, 800);
+				});
+			});
+		}
 	}
 </script>
 </body>
