@@ -1,0 +1,13 @@
+/**
+Theme Name: Rob's Theme
+Author: Rob Mehew
+Author URI: https://www.epicwebs.co.uk
+Description: A base theme installed when development commences, used to improve security, speed and the user experience.
+Version: 1.0
+Text Domain: basetheme
+**/
+
+/**
+* This theme uses Less CSS located inside the /css/less folder.
+* It also uses PHP compiling for LESS, it is auto compiled and cached.
+**/

@@ -1,0 +1,13 @@
+#basetheme_dashboard_widget {
+	background: #2d2d2d;
+	color: #ffffff;
+	border: none;
+}
+
+#basetheme_dashboard_widget h2 {
+	color: #ffffff;
+}
+
+#basetheme_dashboard_widget a {
+	color: #ffffff;
+}

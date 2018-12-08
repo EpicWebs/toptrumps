@@ -1,0 +1,169 @@
+@import "wordpress/wordpress.less";
+@import "utilities.less";
+@import "flexbox.less";
+@import "hamburgers.less";
+
+@base_path: "http://localhost/website"; //This value is re-written for the current domain
+@image_path: "@{base_path}/wp-content/themes/toptrumps/images";
+
+/* 
+* Colours 
+*/
+@oppoent_colour: #B53C3C;
+@opponent_colour_lighter: #D65E5E;
+
+@your_colour: #3C85B5;
+@your_colour_lighter: #74B7E3;
+
+body {
+    font-family: 'Noto Serif SC', serif;
+}
+
+h1 {
+    text-align: center;
+}
+
+.card {
+
+    border: solid 10px @your_colour;
+    border-radius: 5px;
+    padding: 10px;
+    max-width: 240px;
+    text-align: left;
+    margin: 0px auto 20px auto;
+    position: relative;
+    box-shadow: 8px 8px 0px 0px rgba(0,0,0,0.50);
+
+    .card__label {
+        position: absolute;
+        left: -7px;
+        top: -7px;
+        font-size: 11px;
+        font-weight: bold;
+        background-color: @your_colour;
+        border: solid 1px #ffffff;
+        border-radius: 3px 0px 0px 0px;
+        color: #ffffff;
+        padding: 2px 6px;
+        font-family: "arial", sans-serif;
+    }
+
+    .card__name {
+        font-weight: bold;
+        margin-top: 0px;
+        text-align: center;
+        font-size: 16px;
+    }
+
+    .card__image {
+        max-width: 30%;
+        height: auto;
+        margin: 0 auto 20px auto;
+        display: block;
+    }
+
+    .card__description {
+        font-style: italic;
+        margin-bottom: 0px;
+        font-size: 12px;
+        font-family: "arial", sans-serif;
+    }
+
+    .card__stats {
+        dl {
+            width: 100%;
+            overflow: hidden;
+            padding: 4px;
+            margin: 0;
+            dt {
+                float: left;
+                width: 50%;
+                padding: 0;
+                margin: 0;
+                font-weight: bold;
+            }
+            dd {
+                float: left;
+                width: 50%;
+                padding: 0;
+                margin: 0;
+                a {
+                    display: inline-block;
+                    font-size: 18px;
+                    font-weight: bold;
+                    color: @your_colour;
+                    &.disabled {
+                        text-decoration: none;
+                        color: #454545;
+                    }
+                    &.selected {
+                        background-color: @your_colour;
+                        color: #ffffff;
+                        padding: 3px 6px;
+                        margin-left: -6px;
+                        border-radius: 5px;
+                    }
+                }
+            }
+        }
+    }
+
+    &.card--hidden {
+        background-color: @your_colour_lighter;
+        min-height: 300px;
+        .card__name, .card__image, .card__description, .card__stats {
+            display: none;
+        }
+    }
+
+    &.card--opponent {
+        border-color: @oppoent_colour;
+        .card__label {
+            bottom: -7px;
+            top: auto;
+            background-color: @oppoent_colour;
+            border-radius: 0px 0px 0px 5px;
+        }
+        .card__stats {
+            dl {
+                dd {
+                    span {
+                        display: inline-block;
+                        font-size: 18px;
+                        font-weight: bold;
+                        color: @oppoent_colour;
+                        &.selected {
+                            background-color: @oppoent_colour;
+                            color: #ffffff;
+                            padding: 3px 6px;
+                            margin-left: -6px;
+                            border-radius: 5px;
+                        }
+                    }
+                }
+            }
+        }
+
+        &.card--hidden {
+            background-color: @opponent_colour_lighter;
+        }
+    }
+}
+
+#opponents-card, #your-card {
+    max-width: 240px;
+    margin: 0 auto;
+    border-radius: 5px;
+
+    &.card--lost {
+        opacity: 0.6;
+    }
+
+    &.card--win {
+        box-shadow: 0px 0px 17px 10px rgba(231,166,26,1);
+    }
+}
+
+.game-instructions {
+    text-align: center;
+}

@@ -1,0 +1,241 @@
+@import "bootstrap/bootstrap.less";
+@import "wordpress/wordpress.less";
+@import "utilities.less";
+
+
+/* 
+* Colours 
+*/
+@main_background_color: #ffffff;
+
+@primary_color: #8acdd2;
+@primary_color_darker: darken(@primary_color, 20%); // 20% darker primary colour.
+@primary_color_lighter: lighten(@primary_color, 20%); // 20% lighter primary colour.
+
+@secondary_color: #000000;
+@secondary_color_darker: darken(@secondary_color, 20%); // 20% darker secondary colour.
+@secondary_color_lighter: lighten(@secondary_color, 20%); // 20% lighter secondary colour.
+
+
+/* 
+* Typography 
+*/
+// Body
+@body_font_family: "tenso",sans-serif;;
+@body_color: #000000;
+@body_font_size: 110%;
+@body_line_height: 1.5;
+
+// Headings
+@heading_font_family: "tenso",sans-serif;;
+@heading_color: #000000;
+
+@heading_one_font_size: 2.6em;
+@heading_one_line_height: 1.2;
+
+@heading_two_font_size: 2.2em;
+@heading_two_line_height: 1.2;
+
+@heading_three_font_size: 1.8em;
+@heading_three_line_height: 1.2;
+
+@heading_four_font_size: 1.4em;
+@heading_four_line_height: 1.2;
+
+@heading_five_font_size: 1.2em;
+@heading_five_line_height: 1.2;
+
+@heading_six_font_size: 1.0em;
+@heading_six_line_height: 1.2;
+
+// Links
+@link_color: #000000;
+@link_color_hover: #000000;
+@link_color_focus: #000000;
+
+// Paragraphs
+@paragraph_font_family: @body_font_family;
+@paragraph_color: @body_color;
+@paragraph_font_size: @body_font_size;
+@paragraph_line_height: @body_line_height;
+
+
+/**
+* Setup the base CSS
+**/
+
+body { 
+	font-family: @body_font_family; 
+	color: @body_color; 
+	line-height: @body_line_height; 
+	background-color: @main_background_color;
+
+	/** Headings **/
+	h1 { 
+		font-size: @heading_one_font_size; 
+		line-height: @heading_one_line_height; 
+		font-family: @heading_font_family; 
+		color: @heading_color; 
+	}
+
+	h2 { 
+		font-size: @heading_two_font_size; 
+		line-height: @heading_two_line_height; 
+		font-family: @heading_font_family; 
+		color: @heading_color; 
+	}
+
+	h3 { 
+		font-size: @heading_three_font_size; 
+		line-height: @heading_three_line_height; 
+		font-family: @heading_font_family; 
+		color: @heading_color; 
+	}
+
+	h4 { 
+		font-size: @heading_four_font_size; 
+		line-height: @heading_four_line_height; 
+		font-family: @heading_font_family; 
+		color: @heading_color; 
+	}
+
+	h5 { 
+		font-size: @heading_five_font_size; 
+		line-height: @heading_five_line_height; 
+		font-family: @heading_font_family; 
+		color: @heading_color; 
+	}
+
+	h6 { 
+		font-size: @heading_six_font_size; 
+		line-height: @heading_six_line_height; 
+		font-family: @heading_font_family; 
+		color: @heading_color; 
+	}
+
+	/** Links **/
+	a { 
+		color: @link_color; 
+		text-decoration: none;
+		
+		&:hover {
+			color: @link_color_hover; 
+		}
+		
+		&:focus {
+			color: @link_color_focus; 
+		}
+	}
+
+	/** Paragraphs **/
+	p { 
+		font-size: @paragraph_font_size; 
+		line-height: @paragraph_line_height; 
+		font-family: @paragraph_font_family; 
+		color: @paragraph_color; 
+	}
+
+}
+
+img { max-width:100%; height:auto; }
+
+/*
+* Custom site CSS
+*/
+
+.wrapper {
+	width:100%;
+	padding: 0px;
+	margin: 0px;
+	article {
+		max-width: 700px;
+		margin: 0 auto;
+		text-align: center;
+		h1 {
+			margin-bottom: 45px;
+			text-transform: uppercase;
+			letter-spacing: 9px;
+			&::after {
+				position: relative;
+				top: 22px;
+				width: 24px;
+				height: 4px;
+				margin: 0 auto;
+				content: " ";
+				display: block;
+				background-color: @primary_color;
+			}
+		}
+		.contact-details {
+			font-weight: bold;
+		}
+	}
+}
+
+.main-container {
+	margin-bottom: 80px;
+}
+
+.site-header {
+	margin-top: 100px;
+}
+
+.branding {
+	text-align: center;
+	position: relative;
+	margin-bottom: 70px;
+	&::after {
+		content: " ";
+		background-color: @primary_color;
+		height: 4px;
+		width: 100%;
+		position: absolute;
+		top: 55px;
+		left: 0;
+		z-index: 1;
+	}
+	img {
+		z-index: 2;
+		position: relative;
+	}
+}
+
+footer {
+	padding: 20px 0 20px 0;
+	background: url(wp-content/themes/basetheme/images/background.jpg) no-repeat 50% 50%;
+	background-size: cover;
+	.newsletter-form {
+		max-width: 930px;
+		margin: 0 auto;
+		p {
+			margin-bottom: 0px;
+		}
+		input[type=text], input[type=email] {
+			width: 110px;
+			padding: 4px 10px;
+			background-color: @primary_color;
+			color: #ffffff;
+			text-transform: uppercase;
+			font-size: 14px;
+			border: none;
+			&::placeholder {
+				color: #ffffff;
+			}
+		}
+		.wpcf7-submit {
+			width: 110px;
+			padding: 2px 10px 3px 10px;
+			background-color: #ffffff;
+			color: @primary_color;
+			border: none;
+			text-transform: uppercase;
+			font-size: 16px;
+		}
+		.text {
+			display:inline-block;
+			margin-right: 20px;
+		}
+	}
+}
+
+
