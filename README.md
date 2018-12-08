@@ -5,6 +5,7 @@ This is a game created in WordPress, it uses ACF Pro to manage the fields in the
 
 - Refresh/Load the page.
 - Click a trait/skill on the card to compare it against the opponents card.
+- The opponent will then automatically select their skill/trait to compare to yours.
 - After all the cards have gone, the person with the most points wins.
 
 ## How to add cards.
